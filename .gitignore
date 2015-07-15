@@ -194,4 +194,7 @@ FakesAssemblies/
 
 # Visual Studio 6 workspace options file
 *.opt
+
+# ezNReporting ignores
 *.sqlite3
+/packages

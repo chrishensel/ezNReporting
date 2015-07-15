@@ -182,20 +182,12 @@ namespace ezNReporting.Export
 
         private string GetCssContent()
         {
-            try
+            if (Css != null)
             {
-                if (Css != null)
+                using (StreamReader reader = new StreamReader(this.Css, Encoding.UTF8))
                 {
-                    using (StreamReader reader = new StreamReader(this.Css, Encoding.UTF8))
-                    {
-                        return reader.ReadToEnd();
-                    }
+                    return reader.ReadToEnd();
                 }
-            }
-            catch (Exception ex)
-            {
-
-                throw;
             }
 
             return null;

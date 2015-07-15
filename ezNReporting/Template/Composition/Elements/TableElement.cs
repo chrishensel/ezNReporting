@@ -65,6 +65,10 @@ namespace ezNReporting.Template.Composition.Elements
 
         #region IMultipleRowsProducer Members
 
+        /// <summary>
+        /// Overridden.
+        /// </summary>
+        /// <param name="context"></param>
         protected override void Prepare(IDataPreparationContext context)
         {
             base.Prepare(context);

@@ -20,7 +20,14 @@ namespace ezNReporting.Data.Provider
 {
     /// <summary>
     /// Provides a data provider that uses a <see cref="IDbConnection"/> to query its data from.
+    /// See documentation for further information.
     /// </summary>
+    /// <remarks><para>A note on the properties<see cref="ConnectionType"/> and <see cref="ConnectionString"/>.
+    /// This is only relevant if also <see cref="ConnectionString"/> is specified.
+    /// If both <see cref="ConnectionType"/> and <see cref="ConnectionString"/> are specified, and <see cref="Connection"/> is null,
+    /// then a new connection based on the connection type and connection string will be created and disposed of after fetching the data.
+    /// This is helpful when wanting to minimize the code-behind logic or when wanting to rapidly change databases and or providers.</para>
+    /// </remarks>
     [TypeKey(ThisTypeKey)]
     public class DbDataProvider : DataProviderBase
     {
@@ -39,18 +46,32 @@ namespace ezNReporting.Data.Provider
 
         #region Properties
 
+        /// <summary>
+        /// Gets/sets the full connection string to use when dynamically creating a connection.
+        /// Also specify <see cref="ConnectionType"/> and set <see cref="Connection"/> to null to use this feature.
+        /// See documentation for further information.
+        /// </summary>
         public string ConnectionString
         {
             get { return this.Properties["connectionString"]; }
             set { this.Properties["connectionString"] = value; }
         }
 
+        /// <summary>
+        /// Gets/sets the assembly-qualified name of the type that implements <see cref="IDbConnection"/> to use for establishing a connection via the <see cref="ConnectionString"/> specified.
+        /// Also specify <see cref="ConnectionString"/> and set <see cref="Connection"/> to null to use this feature.
+        /// See documentation for further information.
+        /// </summary>
         public string ConnectionType
         {
             get { return this.Properties["connectionType"]; }
             set { this.Properties["connectionType"] = value; }
         }
 
+        /// <summary>
+        /// Gets/sets the queries to use.
+        /// Multiple queries are separated by newlines.
+        /// </summary>
         public string Queries
         {
             get { return this.Properties["queries"]; }
@@ -85,7 +106,6 @@ namespace ezNReporting.Data.Provider
         /// <summary>
         /// Overridden to find out which queries and options are needed.
         /// </summary>
-        /// <param name="parameters"></param>
         protected override void Initialize()
         {
             base.Initialize();
