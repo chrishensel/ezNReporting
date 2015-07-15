@@ -1,0 +1,29 @@
+﻿@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+<div>
+    <fieldset>
+        <div>
+            <span class="label-form">Name:</span>
+            <input type="text" id="txtName" placeholder="Reportnamen eingeben" />
+        </div>
+        <div>
+            <span class="label-form">Autor:</span>
+            <input type="text" id="txtAuthor" placeholder="Name des Autoren eingeben" />
+        </div>
+    </fieldset>
+
+    <br />
+
+    <input type="button" id="btnOK" value="OK" onclick="submit(); return false;" />
+</div>
+
+@section scripts {
+
+    <link rel="stylesheet" href="~/Content/app/home/create.css" />
+
+    <script type="text/javascript" src="~/Scripts/app/home/create.js"></script>
+}

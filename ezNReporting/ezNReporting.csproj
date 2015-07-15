@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{0F01D903-2D57-4F2C-9381-09A2268AC69B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ezNReporting</RootNamespace>
+    <AssemblyName>ezNReporting</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\ezNReporting.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\ezNReporting.xml</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Core\TypeKeyAttribute.cs" />
+    <Compile Include="Core\AliasDependencyResolver.cs" />
+    <Compile Include="Core\CustomDependencyResolver.cs" />
+    <Compile Include="Core\IDependencyConsumer.cs" />
+    <Compile Include="Core\IDependencyResolver.cs" />
+    <Compile Include="Core\IPropertyContainer.cs" />
+    <Compile Include="Errors\ReportGenerationException.cs" />
+    <Compile Include="Errors\DataSourceInitializeException.cs" />
+    <Compile Include="Errors\TypeKeyNotFoundException.cs" />
+    <Compile Include="Data\DataSource.cs" />
+    <Compile Include="Data\DataSourceCollection.cs" />
+    <Compile Include="Data\IDataContainer.cs" />
+    <Compile Include="Data\IDataPreparation.cs" />
+    <Compile Include="Data\IDataPreparationContext.cs" />
+    <Compile Include="Data\IDataProvider.cs" />
+    <Compile Include="Data\IDataSource.cs" />
+    <Compile Include="Data\Provider\DataProviderBase.cs" />
+    <Compile Include="Data\Provider\DbDataProvider.cs" />
+    <Compile Include="Data\Provider\StaticDataProvider.cs" />
+    <Compile Include="DescriptionMetadata.cs" />
+    <Compile Include="Engine\IReportEngine.cs" />
+    <Compile Include="Engine\IReportEngineFactory.cs" />
+    <Compile Include="Engine\ReportEngine.cs" />
+    <Compile Include="Engine\ReportEngineFactory.cs" />
+    <Compile Include="Errors\DataSourceException.cs" />
+    <Compile Include="Errors\DataSourceNotFoundException.cs" />
+    <Compile Include="Errors\ReportingExceptionBase.cs" />
+    <Compile Include="Export\XHtmlReportExporter.cs" />
+    <Compile Include="Export\IReportExporter.cs" />
+    <Compile Include="Export\ReportExporterBase.cs" />
+    <Compile Include="GeneralExtensions.cs" />
+    <Compile Include="IDescriptionMetadata.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Template\Composition\CompositionElementBase.cs" />
+    <Compile Include="Template\Composition\ElementClassifications.cs" />
+    <Compile Include="Template\Composition\Elements\EmptyElement.cs" />
+    <Compile Include="Data\IMultipleRowsProducer.cs" />
+    <Compile Include="Data\IScalarValueProducer.cs" />
+    <Compile Include="Template\Composition\Elements\SeparatorElement.cs" />
+    <Compile Include="Template\Composition\Elements\StaticLabelElement.cs" />
+    <Compile Include="Template\Composition\Elements\TableElement.cs" />
+    <Compile Include="Template\Composition\Elements\VerticalContainerElement.cs" />
+    <Compile Include="Template\Composition\ICompositionElement.cs" />
+    <Compile Include="Template\IReportTemplate.cs" />
+    <Compile Include="Template\IReportTemplateFactory.cs" />
+    <Compile Include="Template\ReportTemplate.cs" />
+    <Compile Include="Template\ReportTemplateFactory.cs" />
+    <Compile Include="Template\Section\IReportTemplateSection.cs" />
+    <Compile Include="Template\Section\ReportTemplateSection.cs" />
+    <Compile Include="Template\Section\SectionCollection.cs" />
+    <Compile Include="Template\Section\SectionType.cs" />
+    <Compile Include="Template\Serialization\IReportTemplateSerializer.cs" />
+    <Compile Include="Template\Serialization\XmlReportTemplateSerializer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

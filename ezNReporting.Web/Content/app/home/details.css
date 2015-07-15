@@ -1,0 +1,10 @@
+﻿body {
+}
+
+#result-container{
+    text-indent: 50px;
+    margin: 10px;
+    padding: 20px 0px 20px 0px;
+    background-color: lightyellow;
+    font-family: Courier New, Courier, monospace;
+}

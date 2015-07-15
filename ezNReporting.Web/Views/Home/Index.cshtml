@@ -1,0 +1,22 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<h2>Index</h2>
+
+<div>
+    <span>@Html.ActionLink("Create", "Create") a new report</span>
+</div>
+
+<br />
+
+<div id="list-container">
+    <div id="list"></div>
+</div>
+
+@section scripts {
+
+    <link rel="stylesheet" href="~/Content/app/home/index.css" />
+
+    <script type="text/javascript" src="~/Scripts/app/home/index.js"></script>
+}

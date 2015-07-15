@@ -1,0 +1,32 @@
+﻿@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<span>Result:</span>
+
+<div id="result-container">
+    <div id="result"></div>
+</div>
+
+<p>
+    <span>Generation took <span class="text-info" id="duration"></span> milliseconds.</span>
+    <br />
+    <br />
+    <span>Create a new report @Html.ActionLink("here", "Create")</span>
+    <br />
+    <span><a id="lnkDeleteReport" href="javascript:void(0);">Delete</a> the report</span>
+</p>
+
+@section scripts {
+
+    <link rel="stylesheet" href="~/Content/app/home/details.css" />
+
+    <script type="text/javascript">
+        var templateGuid = '@this.ViewData["guid"]';
+    </script>
+
+    <script type="text/javascript" src="~/Scripts/app/home/details.js"></script>
+
+}
