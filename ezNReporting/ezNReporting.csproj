@@ -49,6 +49,7 @@
     <Compile Include="Core\IDependencyConsumer.cs" />
     <Compile Include="Core\IDependencyResolver.cs" />
     <Compile Include="Core\IPropertyContainer.cs" />
+    <Compile Include="Data\Provider\ScriptDataProvider.cs" />
     <Compile Include="Engine\GenerationContext.cs" />
     <Compile Include="Engine\IGenerationContext.cs" />
     <Compile Include="Errors\ReportGenerationException.cs" />
@@ -83,6 +84,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Scripting\CSharpScriptingProvider.cs" />
+    <Compile Include="Scripting\IScriptingProvider.cs" />
+    <Compile Include="Scripting\ScriptExecutionOptions.cs" />
     <Compile Include="Template\Composition\CompositionElementBase.cs" />
     <Compile Include="Template\Composition\ElementClassifications.cs" />
     <Compile Include="Template\Composition\Elements\EmptyElement.cs" />

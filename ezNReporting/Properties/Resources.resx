@@ -126,6 +126,20 @@
   <data name="ReportGenerationExceptionMessage" xml:space="preserve">
     <value>Report generation has failed! Please see inner exception for details.</value>
   </data>
+  <data name="ScriptProviderCSharpTemplate" xml:space="preserve">
+    <value>using System;
+using System.Data;
+using System.Linq;
+using ezNReporting.Scripting;
+
+public static class _Tmp
+{
+    public static object Exec(ScriptExecutionOptions options)
+    {
+        {Source}
+    }
+}</value>
+  </data>
   <data name="TypeKeyNotFoundExceptionMessage" xml:space="preserve">
     <value>The [TypeKey(string)] attribute couldn't be found on the type '{0}'. </value>
   </data>

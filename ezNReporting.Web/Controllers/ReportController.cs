@@ -57,6 +57,13 @@ namespace ezNReporting.Web.Controllers
             IReportTemplate template = _templateFactory.Create(new DescriptionMetadata() { Name = model.Name, Author = model.CreatedBy });
             template.DataSources.Set(new DataSource("", new StaticDataProvider().Set("test", 4711).Set("switch", true)));
 
+            // Un-comment this to add a data provider which returns a DataSet with data filled by a custom script written in C#.
+            //template.DataSources.Set(new DataSource("scr1", new ScriptDataProvider()
+            //{
+            //    ScriptTypeKey = "cs",
+            //    ScriptText = @"DataSet result = new DataSet(""Created from code""); result.Tables.Add(""Hello world""); return result;"
+            //}));
+
             IReportTemplateSection section = template.Sections.GetSection(SectionType.Detail);
 
             ICompositionElement rootElement = new VerticalContainerElement();

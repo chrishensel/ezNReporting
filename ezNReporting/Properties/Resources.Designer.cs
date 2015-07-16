@@ -88,6 +88,26 @@ namespace ezNReporting.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to using System;
+        ///using System.Data;
+        ///using System.Linq;
+        ///using ezNReporting.Scripting;
+        ///
+        ///public static class _Tmp
+        ///{
+        ///    public static object Exec(ScriptExecutionOptions options)
+        ///    {
+        ///        {Source}
+        ///    }
+        ///}.
+        /// </summary>
+        internal static string ScriptProviderCSharpTemplate {
+            get {
+                return ResourceManager.GetString("ScriptProviderCSharpTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The [TypeKey(string)] attribute couldn&apos;t be found on the type &apos;{0}&apos;. .
         /// </summary>
         internal static string TypeKeyNotFoundExceptionMessage {

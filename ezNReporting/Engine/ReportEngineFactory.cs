@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
 
 namespace ezNReporting.Engine
 {
@@ -20,11 +21,28 @@ namespace ezNReporting.Engine
     /// </summary>
     public class ReportEngineFactory : IReportEngineFactory
     {
+        #region Constructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReportEngineFactory"/> class.
+        /// </summary>
+        public ReportEngineFactory()
+        {
+        }
+
+        #endregion
+
         #region IReportEngineFactory Members
 
         IReportEngine IReportEngineFactory.Create()
         {
-            return new ReportEngine();
+            IReportEngine engine = new ReportEngine();
+
+            /* Register default extensions.
+             */
+            engine.Extensions.Add(Type.GetType("ezNReporting.Scripting.CSharpScriptingProvider"));
+
+            return engine;
         }
 
         #endregion
