@@ -48,6 +48,16 @@ namespace ezNReporting.Template.Composition.Elements
             set { Properties["data-source"] = value; }
         }
 
+        /// <summary>
+        /// Gets/sets the name of the <see cref="DataTable"/> to use for returning its <see cref="DataRow"/> contents.
+        /// If this is null, the element tries to get the data from the first table.
+        /// </summary>
+        public string DataTableName
+        {
+            get { return Properties["data-table"]; }
+            set { Properties["data-table"] = value; }
+        }
+
         #endregion
 
         #region Constructors
@@ -83,11 +93,23 @@ namespace ezNReporting.Template.Composition.Elements
 
         private IEnumerable<DataRow> GetRowsData()
         {
+            DataTable table = null;
+
             if (_data != null && _data.Tables.Count > 0)
             {
-                DataTable tbl = _data.Tables[0];
+                if (!string.IsNullOrWhiteSpace(DataTableName))
+                {
+                    table = _data.Tables[DataTableName];
+                }
+                else
+                {
+                    table = _data.Tables[0];
+                }
+            }
 
-                foreach (DataRow row in tbl.Rows)
+            if (table != null)
+            {
+                foreach (DataRow row in table.Rows)
                 {
                     yield return row;
                 }
