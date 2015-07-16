@@ -15,6 +15,7 @@
 using System;
 using System.Data;
 using ezNReporting.Core;
+using ezNReporting.Engine;
 
 namespace ezNReporting.Data.Provider
 {
@@ -134,7 +135,8 @@ namespace ezNReporting.Data.Provider
         /// <summary>
         /// Overridden to retrieve the data from the specified queries.
         /// </summary>
-        protected override void RetrieveData()
+        /// <param name="context"></param>
+        protected override void RetrieveData(IGenerationContext context)
         {
             if (_queries == null)
             {

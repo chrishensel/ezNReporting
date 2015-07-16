@@ -41,12 +41,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\ExtensionCollection.cs" />
+    <Compile Include="Core\IExtension.cs" />
     <Compile Include="Core\TypeKeyAttribute.cs" />
     <Compile Include="Core\AliasDependencyResolver.cs" />
     <Compile Include="Core\CustomDependencyResolver.cs" />
     <Compile Include="Core\IDependencyConsumer.cs" />
     <Compile Include="Core\IDependencyResolver.cs" />
     <Compile Include="Core\IPropertyContainer.cs" />
+    <Compile Include="Engine\GenerationContext.cs" />
+    <Compile Include="Engine\IGenerationContext.cs" />
     <Compile Include="Errors\ReportGenerationException.cs" />
     <Compile Include="Errors\DataSourceInitializeException.cs" />
     <Compile Include="Errors\TypeKeyNotFoundException.cs" />

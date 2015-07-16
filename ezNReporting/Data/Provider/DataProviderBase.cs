@@ -14,6 +14,7 @@
 
 using System.Collections.Specialized;
 using System.Data;
+using ezNReporting.Engine;
 
 namespace ezNReporting.Data.Provider
 {
@@ -55,7 +56,8 @@ namespace ezNReporting.Data.Provider
         /// <summary>
         /// When overridden in a derived class, peforms application-specific logic to retrieve the data for the report.
         /// </summary>
-        protected abstract void RetrieveData();
+        /// <param name="context"></param>
+        protected abstract void RetrieveData(IGenerationContext context);
 
         #endregion
 
@@ -75,9 +77,9 @@ namespace ezNReporting.Data.Provider
             Initialize();
         }
 
-        void IDataProvider.RetrieveData()
+        void IDataProvider.RetrieveData(IGenerationContext context)
         {
-            RetrieveData();
+            RetrieveData(context);
         }
 
         #endregion

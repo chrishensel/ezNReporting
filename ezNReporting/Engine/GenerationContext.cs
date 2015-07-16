@@ -12,22 +12,28 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
-using System.IO;
-using ezNReporting.Engine;
+using ezNReporting.Data;
+using ezNReporting.Template;
 
-namespace ezNReporting.Export
+namespace ezNReporting.Engine
 {
-    /// <summary>
-    /// Defines members for a type that can generate and create a report to a custom format.
-    /// </summary>
-    public interface IReportExporter : IDisposable
+    class GenerationContext : IGenerationContext
     {
-        /// <summary>
-        /// Exports the specified report.
-        /// </summary>
-        /// <param name="context"></param>
-        /// <returns></returns>
-        Stream Export(IGenerationContext context);
+        #region IGenerationContext Members
+
+        public IReportEngine Engine { get; set; }
+
+        public IReportTemplate Template { get; set; }
+
+        #endregion
+
+        #region IDataPreparationContext Members
+
+        IDataContainer IDataPreparationContext.RequestDataContainer(string name)
+        {
+            return Template.RequestDataContainer(name);
+        }
+
+        #endregion
     }
 }

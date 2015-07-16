@@ -14,6 +14,7 @@
 
 using System;
 using System.IO;
+using ezNReporting.Core;
 using ezNReporting.Data;
 using ezNReporting.Errors;
 using ezNReporting.Export;
@@ -25,7 +26,27 @@ namespace ezNReporting.Engine
 {
     class ReportEngine : IReportEngine
     {
+        #region Fields
+
+        private ExtensionCollection _extensions;
+
+        #endregion
+
+        #region Constructors
+
+        internal ReportEngine()
+        {
+            _extensions = new ExtensionCollection(this);
+        }
+
+        #endregion
+
         #region IReportEngine Members
+
+        ExtensionCollection IReportEngine.Extensions
+        {
+            get { return _extensions; }
+        }
 
         Stream IReportEngine.Generate(IReportTemplate template, Type exporterType)
         {
@@ -71,12 +92,14 @@ namespace ezNReporting.Engine
 
         private Stream GenerateWithFault(IReportTemplate template, IReportExporter exporter)
         {
+            IGenerationContext context = new GenerationContext() { Engine = this, Template = template };
+
             foreach (IDataSource item in template.DataSources)
             {
                 try
                 {
                     item.Provider.Initialize();
-                    item.Provider.RetrieveData();
+                    item.Provider.RetrieveData(context);
                 }
                 catch (Exception ex)
                 {
@@ -86,12 +109,10 @@ namespace ezNReporting.Engine
 
             foreach (IReportTemplateSection section in template.Sections)
             {
-                PrepareElement(template, section.RootElement);
+                PrepareElement(context, section.RootElement);
             }
 
-            exporter.Template = template;
-
-            Stream stream = exporter.Export();
+            Stream stream = exporter.Export(context);
 
             stream.Position = 0L;
 

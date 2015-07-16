@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using ezNReporting.Core;
+using ezNReporting.Engine;
 
 namespace ezNReporting.Data.Provider
 {
@@ -97,8 +98,10 @@ namespace ezNReporting.Data.Provider
         /// <summary>
         /// The implementation does nothing, as data is provided by the user.
         /// </summary>
-        protected override void RetrieveData()
+        /// <param name="context"></param>
+        protected override void RetrieveData(IGenerationContext context)
         {
+
         }
 
         #endregion

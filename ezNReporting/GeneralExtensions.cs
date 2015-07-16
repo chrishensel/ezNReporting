@@ -42,7 +42,7 @@ namespace ezNReporting
 
         /// <summary>
         /// Sets the property with the given key to a specific value.
-        /// A previously set property value will be overridden.
+        /// A previously set property value will be overwritten.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="container"></param>

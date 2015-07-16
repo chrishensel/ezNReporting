@@ -20,6 +20,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 using ezNReporting.Data;
+using ezNReporting.Engine;
 using ezNReporting.Template.Composition;
 using ezNReporting.Template.Section;
 
@@ -46,17 +47,18 @@ namespace ezNReporting.Export
         /// <summary>
         /// Overridden.
         /// </summary>
+        /// <param name="context"></param>
         /// <returns></returns>
-        protected override Stream Export()
+        protected override Stream Export(IGenerationContext context)
         {
-            IReportTemplateSection sd = Template.Sections.GetSection(SectionType.Detail);
+            IReportTemplateSection sd = context.Template.Sections.GetSection(SectionType.Detail);
 
             XDocument doc = new XDocument();
             doc.Add(new XElement("html"));
 
             XElement elmHead = new XElement("head");
             doc.Root.Add(elmHead);
-            elmHead.Add(new XElement("title", Template.Description.Name));
+            elmHead.Add(new XElement("title", context.Template.Description.Name));
 
             XElement elmBody = new XElement("body");
             doc.Root.Add(elmBody);

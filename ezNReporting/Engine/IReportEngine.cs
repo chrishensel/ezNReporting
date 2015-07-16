@@ -14,6 +14,7 @@
 
 using System;
 using System.IO;
+using ezNReporting.Core;
 using ezNReporting.Export;
 using ezNReporting.Template;
 
@@ -24,6 +25,11 @@ namespace ezNReporting.Engine
     /// </summary>
     public interface IReportEngine
     {
+        /// <summary>
+        /// Gets a container that holds instances of <see cref="IExtension"/> types.
+        /// </summary>
+        ExtensionCollection Extensions { get; }
+
         /// <summary>
         /// Generates the provided report, using the specified exporter type.
         /// </summary>

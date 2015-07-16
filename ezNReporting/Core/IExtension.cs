@@ -12,24 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using ezNReporting.Core;
-using ezNReporting.Engine;
 
-namespace ezNReporting.Data
+namespace ezNReporting.Core
 {
     /// <summary>
-    /// Defines members for a type that is able to perform a custom query and provide its results to the report.
+    /// Defines members for a generic extension.
     /// </summary>
-    public interface IDataProvider : IDataContainer, IPropertyContainer
+    public interface IExtension
     {
         /// <summary>
-        /// Initializes this instance using the provided parameter data.
+        /// Called by the extension host when this extension is registered.
         /// </summary>
-        void Initialize();
-        /// <summary>
-        /// Queries the configured data source and stores its results.
-        /// </summary>
-        /// <param name="context">An instance of <see cref="IGenerationContext"/> that may be used during data retrieval.</param>
-        void RetrieveData(IGenerationContext context);
+        /// <param name="host">The host at which this extension is registered.</param>
+        void OnRegister(object host);
     }
 }

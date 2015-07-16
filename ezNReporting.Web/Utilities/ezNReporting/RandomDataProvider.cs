@@ -15,6 +15,7 @@
 using System;
 using System.Data;
 using ezNReporting.Data.Provider;
+using ezNReporting.Engine;
 
 namespace ezNReporting.Web.Utilities.ezNReporting
 {
@@ -22,7 +23,7 @@ namespace ezNReporting.Web.Utilities.ezNReporting
     {
         #region Methods
 
-        protected override void RetrieveData()
+        protected override void RetrieveData(IGenerationContext context)
         {
             DataTable table = new DataTable();
             table.Columns.Add("Value");

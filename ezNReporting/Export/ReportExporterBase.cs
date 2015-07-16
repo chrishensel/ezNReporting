@@ -14,7 +14,7 @@
 
 using System;
 using System.IO;
-using ezNReporting.Template;
+using ezNReporting.Engine;
 
 namespace ezNReporting.Export
 {
@@ -24,22 +24,18 @@ namespace ezNReporting.Export
     public abstract class ReportExporterBase : IReportExporter
     {
         #region IReportExporter Members
-
-        /// <summary>
-        /// Gets/sets the report template to fill with data and export.
-        /// </summary>
-        public IReportTemplate Template { get; set; }
-
-        Stream IReportExporter.Export()
+        
+        Stream IReportExporter.Export(IGenerationContext context)
         {
-            return Export();
+            return Export(context);
         }
 
         /// <summary>
         /// Exports the specified report.
         /// </summary>
+        /// <param name="context"></param>
         /// <returns></returns>
-        protected abstract Stream Export();
+        protected abstract Stream Export(IGenerationContext context);
 
         #endregion
 

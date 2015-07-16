@@ -12,24 +12,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using ezNReporting.Core;
-using ezNReporting.Engine;
+using ezNReporting.Data;
+using ezNReporting.Template;
 
-namespace ezNReporting.Data
+namespace ezNReporting.Engine
 {
     /// <summary>
-    /// Defines members for a type that is able to perform a custom query and provide its results to the report.
+    /// Defines members that can be used by components during report generation.
     /// </summary>
-    public interface IDataProvider : IDataContainer, IPropertyContainer
+    public interface IGenerationContext : IDataPreparationContext
     {
         /// <summary>
-        /// Initializes this instance using the provided parameter data.
+        /// Gets the instance of <see cref="IReportEngine"/> that is used during generation.
         /// </summary>
-        void Initialize();
+        IReportEngine Engine { get; }
         /// <summary>
-        /// Queries the configured data source and stores its results.
+        /// Gets the <see cref="IReportTemplate"/> that is to be generated.
         /// </summary>
-        /// <param name="context">An instance of <see cref="IGenerationContext"/> that may be used during data retrieval.</param>
-        void RetrieveData(IGenerationContext context);
+        IReportTemplate Template { get; }
     }
 }
