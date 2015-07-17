@@ -73,6 +73,7 @@
     <Compile Include="Errors\DataSourceException.cs" />
     <Compile Include="Errors\DataSourceNotFoundException.cs" />
     <Compile Include="Errors\ReportingExceptionBase.cs" />
+    <Compile Include="Export\CsvReportExporter.cs" />
     <Compile Include="Export\XHtmlReportExporter.cs" />
     <Compile Include="Export\IReportExporter.cs" />
     <Compile Include="Export\ReportExporterBase.cs" />
