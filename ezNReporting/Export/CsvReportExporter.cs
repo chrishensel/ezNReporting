@@ -18,7 +18,6 @@ using System.Linq;
 using System.Text;
 using ezNReporting.Data;
 using ezNReporting.Engine;
-using ezNReporting.Template.Composition;
 using ezNReporting.Template.Section;
 
 namespace ezNReporting.Export
@@ -52,7 +51,11 @@ namespace ezNReporting.Export
 
         private void ExportSection(TextWriter writer, IReportTemplateSection section)
         {
-            IMultipleRowsProducer producer = FindFirstMultipleRowsProducer(section.RootElement);
+            /* This searches for the first occurrence of a multiple rows producer.
+             * CSV format is very limited and it makes no sense to export more tables or just a single value.
+             */
+
+            IMultipleRowsProducer producer = section.RootElement.FindFirstMultipleRowsProducer();
 
             if (producer != null)
             {
@@ -72,37 +75,6 @@ namespace ezNReporting.Export
                     }
                 }
             }
-        }
-
-        private IMultipleRowsProducer FindFirstMultipleRowsProducer(ICompositionElement element)
-        {
-            /* This searches for the first occurrence of a multiple rows producer.
-             * CSV format is very limited and it makes no sense to export more tables or just a single value.
-             */
-
-            IMultipleRowsProducer prod = null;
-
-            prod = element as IMultipleRowsProducer;
-
-            if (prod != null)
-            {
-                return prod;
-            }
-
-            if (element.ChildrenSupported)
-            {
-                foreach (ICompositionElement child in element.Children)
-                {
-                    prod = FindFirstMultipleRowsProducer(child);
-
-                    if (prod != null)
-                    {
-                        return prod;
-                    }
-                }
-            }
-
-            return null;
         }
 
         #endregion
