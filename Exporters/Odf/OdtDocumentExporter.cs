@@ -12,17 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
 using System.Data;
 using System.IO;
 using System.Linq;
-using AODL.Document.Content;
+using AODL.Document;
 using AODL.Document.Content.Tables;
-using AODL.Document.Content.Text;
 using AODL.Document.TextDocuments;
 using ezNReporting.Data;
 using ezNReporting.Engine;
-using ezNReporting.Export;
 using ezNReporting.Template.Composition;
 using ezNReporting.Template.Section;
 
@@ -39,8 +36,20 @@ namespace ezNReporting.Exporter.Odf
     /// <summary>
     /// Exports reports to the ODT (OpenDocument Text) format.
     /// </summary>
-    public class OdtDocumentExporter : ReportExporterBase
+    public class OdtDocumentExporter : OdfExporterBase
     {
+        #region Constructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="OdtDocumentExporter"/> class.
+        /// </summary>
+        public OdtDocumentExporter()
+            : base("odt")
+        {
+        }
+
+        #endregion
+
         #region Methods
 
         /// <summary>
@@ -55,34 +64,24 @@ namespace ezNReporting.Exporter.Odf
             TextDocument doc = new TextDocument();
             doc.New();
 
+            doc.DocumentConfigurations2 = null;
+
+            doc.DocumentMetadata.Creator = context.Template.Description.Author;
+            doc.DocumentMetadata.Title = context.Template.Description.Name;
+
             WriteElement(sdet.RootElement, doc);
 
-            FileInfo tmp = new FileInfo(Path.GetTempFileName().Replace(".tmp", ".odt"));
-            using (tmp.Create()) { }
-
-            doc.SaveTo(tmp.FullName);
-
-            MemoryStream stream = new MemoryStream();
-            using (FileStream fs = tmp.OpenRead())
-            {
-                fs.CopyTo(stream);
-            }
-
-            tmp.Delete();
-
-            return stream;
+            return CreateStream(doc);
         }
 
-        private void WriteElement(ICompositionElement element, TextDocument doc)
+        /// <summary>
+        /// Overridden.
+        /// </summary>
+        /// <param name="element"></param>
+        /// <param name="doc"></param>
+        /// <param name="level"></param>
+        protected override void OnWriteElement(ICompositionElement element, IDocument doc, int level)
         {
-            if (element.ChildrenSupported)
-            {
-                foreach (ICompositionElement child in element.Children)
-                {
-                    WriteElement(child, doc);
-                }
-            }
-
             IScalarValueProducer singleValue = element as IScalarValueProducer;
             if (singleValue != null)
             {
@@ -93,41 +92,38 @@ namespace ezNReporting.Exporter.Odf
                 IMultipleRowsProducer rp = element as IMultipleRowsProducer;
                 if (rp != null)
                 {
-                    DataRow[] rows = rp.Rows.ToArray();
-                    if (rows.Length > 0)
-                    {
-                        DataTable ptab = rows.First().Table;
-
-                        Table table = TableBuilder.CreateTextDocumentTable(doc, ptab.TableName, string.Empty, rows.Length + 1, ptab.Columns.Count, 0d, true, true);
-                        CellCollection tableCells = table.RowHeader.RowCollection[0].CellCollection;
-
-                        for (int i = 0; i < tableCells.Count; i++)
-                        {
-                            CreateAddSimpleText(doc, tableCells[i].Content, ptab.Columns[i].ColumnName);
-                        }
-
-                        for (int i = 0; i < table.RowCollection.Count; i++)
-                        {
-                            tableCells = table.RowCollection[i].CellCollection;
-
-                            for (int j = 0; j < tableCells.Count; j++)
-                            {
-                                CreateAddSimpleText(doc, tableCells[j].Content, rows[i][j]);
-                            }
-                        }
-
-                        doc.Content.Add(table);
-                    }
+                    WriteTable(rp, doc);
                 }
             }
         }
 
-        private static void CreateAddSimpleText(TextDocument doc, IContentCollection content, object value)
+        private void WriteTable(IMultipleRowsProducer rp, IDocument doc)
         {
-            Paragraph p = ParagraphBuilder.CreateStandardTextParagraph(doc);
-            p.TextContent.Add(new SimpleText(doc, Convert.ToString(value ?? string.Empty)));
+            DataRow[] rows = rp.Rows.ToArray();
+            if (rows.Length > 0)
+            {
+                DataTable ptab = rows.First().Table;
 
-            content.Add(p);
+                Table table = TableBuilder.CreateTextDocumentTable((TextDocument)doc, ptab.TableName, string.Empty, rows.Length + 1, ptab.Columns.Count, 0d, true, true);
+                CellCollection tableCells = table.RowHeader.RowCollection[0].CellCollection;
+
+                for (int i = 0; i < tableCells.Count; i++)
+                {
+                    CreateAddSimpleText(doc, tableCells[i].Content, ptab.Columns[i].ColumnName);
+                }
+
+                for (int i = 0; i < table.RowCollection.Count; i++)
+                {
+                    tableCells = table.RowCollection[i].CellCollection;
+
+                    for (int j = 0; j < tableCells.Count; j++)
+                    {
+                        CreateAddSimpleText(doc, tableCells[j].Content, rows[i][j]);
+                    }
+                }
+
+                doc.Content.Add(table);
+            }
         }
 
         #endregion
