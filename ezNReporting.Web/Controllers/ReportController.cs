@@ -108,7 +108,7 @@ namespace ezNReporting.Web.Controllers
             object result = new
             {
                 reports = reports.Where(_ => _.State == EntityState.Ok).ToArray(),
-                lastId = reports.Max(_ => _.Id),
+                lastId = (reports.Length == 0) ? -1 : reports.Max(_ => _.Id),
             };
 
             return new JsonNetResult(result);
