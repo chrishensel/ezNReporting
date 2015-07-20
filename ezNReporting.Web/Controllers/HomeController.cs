@@ -14,6 +14,7 @@
 
 using System.Web.Mvc;
 using ezNReporting.Web.Models.Reports;
+using Newtonsoft.Json;
 
 namespace ezNReporting.Web.Controllers
 {
@@ -34,6 +35,13 @@ namespace ezNReporting.Web.Controllers
         public ActionResult Details(ReportDetailsModel model)
         {
             this.ViewData["guid"] = model.Guid;
+            this.ViewData["exporters"] = JsonConvert.SerializeObject(new
+            {
+                csv = "CsvReportExporter",
+                xhtml = "XHtmlReportExporter",
+                odt = "OdtDocumentExporter",
+                ods = "OdsDocumentExporter"
+            });
 
             return View();
         }

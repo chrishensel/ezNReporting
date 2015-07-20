@@ -131,6 +131,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Models\Reports\DownloadReportModel.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -219,6 +220,10 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Exporters\Odf\ezNReporting.Exporter.Odf.csproj">
+      <Project>{f7d2303c-efc4-4906-8ce7-ef51711c054b}</Project>
+      <Name>ezNReporting.Exporter.Odf</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ezNReporting\ezNReporting.csproj">
       <Project>{0f01d903-2d57-4f2c-9381-09a2268ac69b}</Project>
       <Name>ezNReporting</Name>

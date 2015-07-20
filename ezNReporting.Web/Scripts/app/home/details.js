@@ -10,9 +10,26 @@ $(function () {
             doGenerate(templateGuid);
         }
 
+        if (exporters != "undefined") {
+            doAddExporters(exporters);
+        }
+
         /* Set up event handlers.
          */
         $("#lnkDeleteReport").click(onDeleteReport);
+    }
+
+    function doAddExporters(exporters) {
+
+        var $list = $("#export");
+
+        $.each(exporters, function (prop, item) {
+
+            var $li = $("<li>");
+            $li.append("<a href='/Report/DownloadReport?guid=" + templateGuid + "&format=" + prop + "'>" + item + "</a>");
+
+            $li.appendTo($list);
+        });
     }
 
     function doGenerate(templateGuid) {

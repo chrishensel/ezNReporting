@@ -121,39 +121,7 @@ namespace ezNReporting.Web.Controllers
 
             try
             {
-                IReportTemplate template = null;
-
-                using (IDataRepository repository = new DataRepository())
-                {
-                    ReportData report = repository.Get(model.Guid);
-                    if (report != null)
-                    {
-                        template = _templateFactory.Create(new MemoryStream(Encoding.UTF8.GetBytes(report.Definition)));
-                    }
-                }
-
-                /* Attach our custom data source.
-                 */
-                StaticDataProvider ours = new StaticDataProvider();
-                ours.AddTable(new System.Data.DataTable());
-                ours.Tables.First().Columns.Add(new System.Data.DataColumn("Id", typeof(int)) { AutoIncrement = true, AutoIncrementSeed = 1, AutoIncrementStep = 1, AllowDBNull = false });
-                ours.Tables.First().Columns.Add(new System.Data.DataColumn("Text", typeof(string)));
-
-                foreach (string value in new[] { "Hello", "World!", "This", "is", "a", "test!", "This", "report", "generator", "rocks!" })
-                {
-                    ours.AddRow(0, null, value);
-                }
-
-                template.DataSources.Set(new DataSource("ours", ours));
-
-                // Uncomment the following statement to replace the above data source with one that generates random data each time.
-                //template.DataSources.Set(new DataSource("ours", new ezNReporting.Web.Utilities.ezNReporting.RandomDataProvider()));
-
-                /* Generate the report.
-                 */
-                IReportEngine engine = _engineFactory.Create();
-
-                using (StreamReader reader = new StreamReader(engine.Generate(template, typeof(XHtmlReportExporter))))
+                using (StreamReader reader = new StreamReader(GenerateReport(model.Guid, typeof(XHtmlReportExporter))))
                 {
                     result = new
                     {
@@ -161,6 +129,11 @@ namespace ezNReporting.Web.Controllers
                         html = reader.ReadToEnd(),
                         duration = sw.ElapsedMilliseconds,
                     };
+                }
+
+                using (StreamReader reader = new StreamReader(GenerateReport(model.Guid, typeof(ezNReporting.Exporter.Odf.OdsDocumentExporter))))
+                {
+                    string r = reader.ReadToEnd();
                 }
             }
             catch (Exception ex)
@@ -177,6 +150,78 @@ namespace ezNReporting.Web.Controllers
             }
 
             return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        private Stream GenerateReport(string guid, Type exporterType)
+        {
+            IReportTemplate template = null;
+
+            using (IDataRepository repository = new DataRepository())
+            {
+                ReportData report = repository.Get(guid);
+                if (report != null)
+                {
+                    template = _templateFactory.Create(new MemoryStream(Encoding.UTF8.GetBytes(report.Definition)));
+                }
+            }
+
+            /* Attach our custom data source.
+             */
+            StaticDataProvider ours = new StaticDataProvider();
+            ours.AddTable(new System.Data.DataTable());
+            ours.Tables.First().Columns.Add(new System.Data.DataColumn("Id", typeof(int)) { AutoIncrement = true, AutoIncrementSeed = 1, AutoIncrementStep = 1, AllowDBNull = false });
+            ours.Tables.First().Columns.Add(new System.Data.DataColumn("Text", typeof(string)));
+
+            foreach (string value in new[] { "Hello", "World!", "This", "is", "a", "test!", "This", "report", "generator", "rocks!" })
+            {
+                ours.AddRow(0, null, value);
+            }
+
+            template.DataSources.Set(new DataSource("ours", ours));
+
+            // Uncomment the following statement to replace the above data source with one that generates random data each time.
+            //template.DataSources.Set(new DataSource("ours", new ezNReporting.Web.Utilities.ezNReporting.RandomDataProvider()));
+
+            /* Generate the report.
+             */
+            IReportEngine engine = _engineFactory.Create();
+
+            return engine.Generate(template, exporterType);
+        }
+
+        public ActionResult DownloadReport(DownloadReportModel model)
+        {
+            Type exporterType = null;
+            string mimeType = null;
+            string extension = null;
+
+            switch (model.Format)
+            {
+                case "csv":
+                    exporterType = typeof(CsvReportExporter);
+                    mimeType = "text/csv";
+                    extension = "csv";
+                    break;
+                case "xhtml":
+                    exporterType = typeof(XHtmlReportExporter);
+                    mimeType = "text/xhtml";
+                    extension = "html";
+                    break;
+                case "odt":
+                    exporterType = typeof(ezNReporting.Exporter.Odf.OdtDocumentExporter);
+                    mimeType = "application/vnd.oasis.opendocument.text";
+                    extension = "odt";
+                    break;
+                case "ods":
+                    exporterType = typeof(ezNReporting.Exporter.Odf.OdsDocumentExporter);
+                    mimeType = "application/vnd.oasis.opendocument.spreadsheet";
+                    extension = "ods";
+                    break;
+            }
+
+            Stream stream = GenerateReport(model.Guid, exporterType);
+
+            return File(stream, mimeType, string.Format("{0}.{1}", model.Guid, extension));
         }
 
         [HttpPost()]

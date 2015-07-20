@@ -13,6 +13,11 @@
 <p>
     <span>Generation took <span class="text-info" id="duration"></span> milliseconds.</span>
     <br />
+    <div>
+        <span>Export this report as: </span>
+        <br />
+        <ul id="export"></ul>
+    </div>
     <br />
     <span>Create a new report @Html.ActionLink("here", "Create")</span>
     <br />
@@ -25,6 +30,7 @@
 
     <script type="text/javascript">
         var templateGuid = '@this.ViewData["guid"]';
+        var exporters = @Html.Raw(ViewData["exporters"]);
     </script>
 
     <script type="text/javascript" src="~/Scripts/app/home/details.js"></script>
