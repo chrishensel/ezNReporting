@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ezNReporting.Web", "ezNRepo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ezNReporting.Exporter.Odf", "Exporters\Odf\ezNReporting.Exporter.Odf.csproj", "{F7D2303C-EFC4-4906-8CE7-EF51711C054B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ezNReporting.Scripting.JavaScriptProvider", "Scripting\JavaScriptProvider\ezNReporting.Scripting.JavaScriptProvider.csproj", "{A5021DAC-60EA-4634-9033-72881463B278}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{F7D2303C-EFC4-4906-8CE7-EF51711C054B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F7D2303C-EFC4-4906-8CE7-EF51711C054B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F7D2303C-EFC4-4906-8CE7-EF51711C054B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A5021DAC-60EA-4634-9033-72881463B278}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5021DAC-60EA-4634-9033-72881463B278}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5021DAC-60EA-4634-9033-72881463B278}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5021DAC-60EA-4634-9033-72881463B278}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
