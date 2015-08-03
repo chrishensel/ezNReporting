@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using System.Data;
 using ezNReporting.Core;
 using ezNReporting.Data;
+using ezNReporting.Engine;
 
 namespace ezNReporting.Template.Composition.Elements
 {
@@ -85,12 +86,7 @@ namespace ezNReporting.Template.Composition.Elements
 
             _data = context.RequestDataContainer(DataSource).Data;
         }
-
-        IEnumerable<DataRow> IMultipleRowsProducer.Rows
-        {
-            get { return GetRowsData(); }
-        }
-
+        
         private IEnumerable<DataRow> GetRowsData()
         {
             DataTable table = null;
@@ -114,6 +110,15 @@ namespace ezNReporting.Template.Composition.Elements
                     yield return row;
                 }
             }
+        }
+
+        #endregion
+
+        #region IValueProducer<IEnumerable<DataRow>> Members
+
+        IEnumerable<DataRow> IValueProducer<IEnumerable<DataRow>>.GetValue(IGenerationContext context)
+        {
+            return GetRowsData();
         }
 
         #endregion

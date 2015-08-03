@@ -49,6 +49,7 @@
     <Compile Include="Core\IDependencyConsumer.cs" />
     <Compile Include="Core\IDependencyResolver.cs" />
     <Compile Include="Core\IPropertyContainer.cs" />
+    <Compile Include="Data\IValueProducer.cs" />
     <Compile Include="Data\Provider\ScriptDataProvider.cs" />
     <Compile Include="Engine\GenerationContext.cs" />
     <Compile Include="Engine\IGenerationContext.cs" />

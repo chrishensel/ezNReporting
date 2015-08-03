@@ -12,13 +12,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using ezNReporting.Engine;
 
 namespace ezNReporting.Data
 {
     /// <summary>
-    /// Defines a member that returns a single (scalar) value.
+    /// Defines a member that returns an arbitrary value from its implementing class.
     /// </summary>
-    public interface IScalarValueProducer : IValueProducer<object>
+    /// <typeparam name="TOutput">The value that the class produces. This may be a scalar type, or an enumerable, for example.</typeparam>
+    public interface IValueProducer<TOutput>
     {
+        /// <summary>
+        /// Returns the value.
+        /// </summary>
+        /// <param name="context">The generation context.</param>
+        /// <returns></returns>
+        TOutput GetValue(IGenerationContext context);
     }
 }

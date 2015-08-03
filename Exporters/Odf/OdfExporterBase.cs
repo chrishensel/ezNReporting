@@ -17,6 +17,7 @@ using System.IO;
 using AODL.Document;
 using AODL.Document.Content;
 using AODL.Document.Content.Text;
+using ezNReporting.Engine;
 using ezNReporting.Export;
 using ezNReporting.Template.Composition;
 
@@ -68,22 +69,22 @@ namespace ezNReporting.Exporter.Odf
         /// </summary>
         /// <param name="element"></param>
         /// <param name="doc"></param>
-        protected void WriteElement(ICompositionElement element, IDocument doc)
+        protected void WriteElement(ICompositionElement element, IGenerationContext context, IDocument doc)
         {
-            WriteElement(element, doc, 0);
+            WriteElement(element, context, doc, 0);
         }
 
-        private void WriteElement(ICompositionElement element, IDocument doc, int level)
+        private void WriteElement(ICompositionElement element, IGenerationContext context, IDocument doc, int level)
         {
             if (element.ChildrenSupported)
             {
                 foreach (ICompositionElement child in element.Children)
                 {
-                    WriteElement(child, doc, level + 1);
+                    WriteElement(child, context, doc, level + 1);
                 }
             }
 
-            OnWriteElement(element, doc, level);
+            OnWriteElement(element, context, doc, level);
         }
 
         /// <summary>
@@ -92,7 +93,7 @@ namespace ezNReporting.Exporter.Odf
         /// <param name="element"></param>
         /// <param name="doc"></param>
         /// <param name="level"></param>
-        protected virtual void OnWriteElement(ICompositionElement element, IDocument doc, int level)
+        protected virtual void OnWriteElement(ICompositionElement element, IGenerationContext context, IDocument doc, int level)
         {
         }
 

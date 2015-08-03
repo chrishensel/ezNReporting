@@ -71,7 +71,7 @@ namespace ezNReporting.Export
                 elmStyle.Add(new XText(css));
             }
 
-            WriteElement(sd.RootElement, elmBody);
+            WriteElement(sd.RootElement, elmBody, context);
 
             MemoryStream ms = new MemoryStream();
             doc.Save(ms);
@@ -79,7 +79,7 @@ namespace ezNReporting.Export
             return ms;
         }
 
-        private void WriteElement(ICompositionElement element, XElement parent)
+        private void WriteElement(ICompositionElement element, XElement parent, IGenerationContext context)
         {
             XElement el = CreateTag(TagType.Div);
 
@@ -87,7 +87,7 @@ namespace ezNReporting.Export
             {
                 foreach (ICompositionElement child in element.Children)
                 {
-                    WriteElement(child, el);
+                    WriteElement(child, el, context);
                 }
             }
 
@@ -96,7 +96,7 @@ namespace ezNReporting.Export
             {
                 XElement elValue = CreateTag(TagType.Span);
                 elValue.Add(new XAttribute("class", "value"));
-                elValue.Add(singleValue.Value);
+                elValue.Add(singleValue.GetValue(context));
 
                 el.Add(elValue);
             }
@@ -108,7 +108,7 @@ namespace ezNReporting.Export
                     XElement elTable = CreateTag(TagType.Table);
                     XElement elTableHeader = null;
 
-                    foreach (DataRow row in rows.Rows)
+                    foreach (DataRow row in rows.GetValue(context))
                     {
                         if (elTableHeader == null)
                         {

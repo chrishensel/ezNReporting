@@ -12,14 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
 using System.Data;
 using System.IO;
 using System.Linq;
-using AODL.Document;
-using AODL.Document.Content;
 using AODL.Document.Content.Tables;
-using AODL.Document.Content.Text;
 using AODL.Document.SpreadsheetDocuments;
 using ezNReporting.Data;
 using ezNReporting.Engine;
@@ -66,15 +62,15 @@ namespace ezNReporting.Exporter.Odf
                 Table table = TableBuilder.CreateSpreadsheetTable(doc, "Table", string.Empty);
                 doc.Content.Add(table);
 
-                WriteTable(producer, table);
+                WriteTable(producer, table, context);
             }
 
             return CreateStream(doc);
         }
 
-        private void WriteTable(IMultipleRowsProducer rp, Table table)
+        private void WriteTable(IMultipleRowsProducer rp, Table table, IGenerationContext context)
         {
-            DataRow[] rows = rp.Rows.ToArray();
+            DataRow[] rows = rp.GetValue(context).ToArray();
             if (rows.Length > 0)
             {
                 DataTable ptab = rows.First().Table;

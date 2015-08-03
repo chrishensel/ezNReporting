@@ -69,7 +69,7 @@ namespace ezNReporting.Exporter.Odf
             doc.DocumentMetadata.Creator = context.Template.Description.Author;
             doc.DocumentMetadata.Title = context.Template.Description.Name;
 
-            WriteElement(sdet.RootElement, doc);
+            WriteElement(sdet.RootElement, context, doc);
 
             return CreateStream(doc);
         }
@@ -80,26 +80,26 @@ namespace ezNReporting.Exporter.Odf
         /// <param name="element"></param>
         /// <param name="doc"></param>
         /// <param name="level"></param>
-        protected override void OnWriteElement(ICompositionElement element, IDocument doc, int level)
+        protected override void OnWriteElement(ICompositionElement element, IGenerationContext context, IDocument doc, int level)
         {
             IScalarValueProducer singleValue = element as IScalarValueProducer;
             if (singleValue != null)
             {
-                CreateAddSimpleText(doc, doc.Content, singleValue.Value);
+                CreateAddSimpleText(doc, doc.Content, singleValue.GetValue(context));
             }
             else
             {
                 IMultipleRowsProducer rp = element as IMultipleRowsProducer;
                 if (rp != null)
                 {
-                    WriteTable(rp, doc);
+                    WriteTable(rp, context, doc);
                 }
             }
         }
 
-        private void WriteTable(IMultipleRowsProducer rp, IDocument doc)
+        private void WriteTable(IMultipleRowsProducer rp, IGenerationContext context, IDocument doc)
         {
-            DataRow[] rows = rp.Rows.ToArray();
+            DataRow[] rows = rp.GetValue(context).ToArray();
             if (rows.Length > 0)
             {
                 DataTable ptab = rows.First().Table;

@@ -14,6 +14,7 @@
 
 using ezNReporting.Core;
 using ezNReporting.Data;
+using ezNReporting.Engine;
 
 namespace ezNReporting.Template.Composition.Elements
 {
@@ -51,6 +52,15 @@ namespace ezNReporting.Template.Composition.Elements
             : base(false)
         {
             this.Classification = ElementClassifications.Text;
+        }
+
+        #endregion
+
+        #region IValueProducer<object> Members
+
+        object IValueProducer<object>.GetValue(IGenerationContext context)
+        {
+            return Value;
         }
 
         #endregion

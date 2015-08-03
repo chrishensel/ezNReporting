@@ -42,14 +42,14 @@ namespace ezNReporting.Export
 
             StreamWriter writer = new StreamWriter(stream, Encoding.UTF8);
 
-            ExportSection(writer, context.Template.Sections.GetSection(SectionType.Detail));
+            ExportSection(writer, context.Template.Sections.GetSection(SectionType.Detail), context);
 
             writer.Flush();
 
             return stream;
         }
 
-        private void ExportSection(TextWriter writer, IReportTemplateSection section)
+        private void ExportSection(TextWriter writer, IReportTemplateSection section, IGenerationContext context)
         {
             /* This searches for the first occurrence of a multiple rows producer.
              * CSV format is very limited and it makes no sense to export more tables or just a single value.
@@ -59,7 +59,7 @@ namespace ezNReporting.Export
 
             if (producer != null)
             {
-                DataRow[] rows = producer.Rows.ToArray();
+                DataRow[] rows = producer.GetValue(context).ToArray();
 
                 if (rows.Length > 0)
                 {

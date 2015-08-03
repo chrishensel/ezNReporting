@@ -20,11 +20,7 @@ namespace ezNReporting.Data
     /// <summary>
     /// Defines a member that may return multiple rows of data.
     /// </summary>
-    public interface IMultipleRowsProducer
+    public interface IMultipleRowsProducer : IValueProducer<IEnumerable<DataRow>>
     {
-        /// <summary>
-        /// Returns an enumerator that may return multiple rows of data.
-        /// </summary>
-        IEnumerable<DataRow> Rows { get; }
     }
 }
